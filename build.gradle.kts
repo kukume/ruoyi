@@ -43,6 +43,12 @@ subprojects {
     val jwtVersion = "0.9.1"
     val swaggerVersion = "3.0.0"
     val dynamicDatasource = "4.1.3"
+    val hibernateVersion = "6.3.1.Final"
+    val springDataJpaVersion = "3.1.5"
+    val querydslVersion = "5.0.0"
+    val entityGraphVersion = "3.1.0"
+    val jacksonVersion = "2.15.3"
+    val okhttpVersion = "4.11.0"
 
 
     dependencyManagement {
@@ -64,7 +70,21 @@ subprojects {
             dependency("io.jsonwebtoken:jjwt:${jwtVersion}")
             dependency("pro.fessional:kaptcha:${kaptchaVersion}")
             dependency("com.baomidou:dynamic-datasource-spring-boot-starter:$dynamicDatasource")
+            dependency("com.cosium.spring.data:spring-data-jpa-entity-graph:$entityGraphVersion")
+            dependency("org.springframework.data:spring-data-jpa:$springDataJpaVersion")
+            dependency("org.hibernate.orm:hibernate-core:$hibernateVersion")
+            dependency("com.querydsl:querydsl-core:$querydslVersion")
+            dependency("com.fasterxml.jackson.datatype:jackson-datatype-hibernate6:$jacksonVersion")
+            dependency("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+            dependency("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+            dependency("com.squareup.okhttp3:okhttp:$okhttpVersion")
         }
+    }
+
+    dependencies {
+        kapt("com.querydsl:querydsl-apt:$querydslVersion:jakarta")
+        kapt("org.springframework.boot:spring-boot-configuration-processor")
+        implementation("com.querydsl:querydsl-jpa:$querydslVersion:jakarta")
     }
 
     tasks.test {

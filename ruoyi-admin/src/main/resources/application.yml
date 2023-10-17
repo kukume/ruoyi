@@ -63,15 +63,15 @@ spring:
       # 设置总上传的文件大小
       max-request-size: 20MB
   # 服务模块
-  devtools:
-    restart:
+#  devtools:
+#    restart:
       # 热部署开关
-      enabled: true
+#      enabled: false
   # redis 配置
   data:
     redis:
       # 地址
-      host: 192.168.1.237
+      host: localhost
       # 端口，默认为6379
       port: 6379
       # 数据库索引
