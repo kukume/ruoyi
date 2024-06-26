@@ -8,6 +8,7 @@ import com.querydsl.core.types.Predicate
 import com.querydsl.core.types.dsl.EntityPathBase
 import com.querydsl.jpa.impl.JPAQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
+import com.ruoyi.common.pojo.JpaPackageName
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -51,12 +52,6 @@ class DynamicQuerydslController(
 
 
 }
-
-val qEntityPackages = listOf(
-    "com.ruoyi.system.entity.master",
-    "com.ruoyi.query.entity.master",
-    "com.ruoyi.door.entity.master"
-)
 
 open class BaseSql {
     var from: From = From()
@@ -112,7 +107,7 @@ data class QuerydslResult<T> (val data: T, val total: Int, val offset: Long?, va
 // 实体类的包名
 
 fun qEntity(str: String): EntityPathBase<*> {
-    for (qPrefix in qEntityPackages) {
+    for (qPrefix in JpaPackageName.entityPackageNames) {
         runCatching {
             return Class.forName("$qPrefix.Q${firstUpper(str)}")
                 .getDeclaredField(firstLower(str)).get(null) as EntityPathBase<*>

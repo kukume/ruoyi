@@ -2,6 +2,7 @@ package com.ruoyi.framework.config
 
 import com.cosium.spring.data.jpa.entity.graph.repository.support.EntityGraphJpaRepositoryFactoryBean
 import com.fasterxml.jackson.datatype.hibernate6.Hibernate6Module
+import com.ruoyi.common.pojo.JpaPackageName
 import com.ruoyi.common.utils.SecurityUtils
 import com.ruoyi.framework.datasource.DynamicDataSource
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties
@@ -22,10 +23,7 @@ import javax.sql.DataSource
 
 @EnableJpaRepositories(
     // entity的包名
-    basePackages = [
-        "com.ruoyi.system.entity.master",
-        "com.ruoyi.query.entity.master"
-   ],
+    basePackages = ["com.ruoyi.query.entity.master", "com.ruoyi.common.entity.master"],
     // 创建的entityManagerFactory的方法名
     entityManagerFactoryRef="entityManagerFactoryByMaster",
     // 创建的transactionManager的方法名
@@ -38,14 +36,8 @@ import javax.sql.DataSource
 class MasterJpaConfig(
     private val hibernateProperties: HibernateProperties,
     private val jpaProperties: JpaProperties,
-    // 依赖注入mybatis-plus的动态数据源，他会把各个数据源以数据库名字为key存在map中
     private val dataSource: DataSource
 ){
-
-    private val packages = arrayOf(
-        "com.ruoyi.system.entity.master",
-        "com.ruoyi.query.entity.master"
-    )
 
 
     @Bean
@@ -58,7 +50,7 @@ class MasterJpaConfig(
         // 获取mybatis-plus中的art数据源
         return build.dataSource(dataSource.resolvedDataSources["MASTER"])
             // entity的包名
-            .packages(*packages)
+            .packages(*JpaPackageName.entityPackageNameArray)
             .properties(properties)
             .build()
     }

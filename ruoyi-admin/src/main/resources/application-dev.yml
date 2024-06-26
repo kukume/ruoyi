@@ -59,3 +59,15 @@ spring:
         wall:
           config:
             multi-statement-allow: true
+  jpa:
+    show-sql: true
+
+springdoc:
+  swagger-ui:
+    url: /dev-api/v3/api-docs
+    enabled: true
+  #    config-url: /dev-api/v3/api-docs/swagger-config
+  api-docs:
+    path: /dev-api/v3/api-docs
+    groups:
+      enabled: true

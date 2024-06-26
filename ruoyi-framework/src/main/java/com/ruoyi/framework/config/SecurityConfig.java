@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -76,9 +76,12 @@ public class SecurityConfig
      * @throws Exception
      */
     @Bean
-    public AuthenticationManager authenticationManagerBean(AuthenticationConfiguration config) throws Exception
+    public AuthenticationManager authenticationManagerBean() throws Exception
     {
-        return config.getAuthenticationManager();
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+        return new ProviderManager(daoAuthenticationProvider);
     }
 
     /**
@@ -101,7 +104,7 @@ public class SecurityConfig
     {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .headers((headers) -> {
-            headers.cacheControl(HeadersConfigurer.CacheControlConfig::disable);
+            headers.cacheControl(HeadersConfigurer.CacheControlConfig::disable).frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin);
         });
         httpSecurity.exceptionHandling((exceptionHandling) -> {
             exceptionHandling.authenticationEntryPoint(unauthorizedHandler);
@@ -134,9 +137,6 @@ public class SecurityConfig
                     .requestMatchers(matcher("/error")).permitAll()
                     .anyRequest().authenticated();
         });
-        httpSecurity.headers((headers) -> {
-            headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable);
-        });
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         // 添加CORS filter
@@ -164,14 +164,4 @@ public class SecurityConfig
         return new BCryptPasswordEncoder();
     }
 
-
-    @Bean
-    public AuthenticationProvider authenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        // DaoAuthenticationProvider 从自定义的 userDetailsService.loadUserByUsername 方法获取UserDetails
-        authProvider.setUserDetailsService(userDetailsService);
-        // 设置密码编辑器
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return authProvider;
-    }
 }

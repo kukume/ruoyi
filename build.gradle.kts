@@ -32,12 +32,12 @@ subprojects {
         plugin("io.freefair.lombok")
     }
 
-    val druidVersion = "1.2.20"
+    val druidVersion = "1.2.23"
     val bitwalkerVersion = "1.21"
     val kaptchaVersion = "2.3.3"
     val pagehelperVersion = "1.4.7"
     val fastjsonVersion = "2.0.39"
-    val oshiVersion = "6.4.4"
+    val oshiVersion = "6.6.1"
     val commonIoVersion = "2.13.0"
     val poiVersion = "4.1.2"
     val velocityVersion = "2.3"

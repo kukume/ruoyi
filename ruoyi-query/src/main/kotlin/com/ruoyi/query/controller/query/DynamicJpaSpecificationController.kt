@@ -2,6 +2,7 @@ package com.ruoyi.query.controller.query
 
 import com.cosium.spring.data.jpa.entity.graph.domain2.EntityGraph
 import com.cosium.spring.data.jpa.entity.graph.domain2.EntityGraphType
+import com.ruoyi.common.pojo.JpaPackageName
 import com.ruoyi.common.utils.DateTimeFormatterUtils
 import com.ruoyi.common.utils.SecurityUtils
 import com.ruoyi.query.annoation.appendDepIdsById
@@ -54,18 +55,6 @@ class DynamicJpaSpecificationController(
     }
 
 }
-
-private val entityPackageNames = listOf(
-    "com.ruoyi.system.entity.master",
-    "com.ruoyi.query.entity.master",
-    "com.ruoyi.door.entity.master"
-)
-
-private val repositoryPackageNames = listOf(
-    "com.ruoyi.system.entity.master",
-    "com.ruoyi.query.entity.master",
-    "com.ruoyi.door.entity.master"
-)
 
 
 class DynamicParam {
@@ -208,7 +197,7 @@ private fun convert(build: CriteriaBuilder, path: Path<*>, text1: String, text2:
 
 
 fun repositoryClass(prefix: String): Class<*> {
-    for (repositoryPackageName in repositoryPackageNames) {
+    for (repositoryPackageName in JpaPackageName.repositoryPackageNames) {
         runCatching {
             return Class.forName("$repositoryPackageName.${prefix}Repository")
         }
@@ -217,7 +206,7 @@ fun repositoryClass(prefix: String): Class<*> {
 }
 
 fun entityClass(prefix: String): Class<*> {
-    for (entityPackageName in entityPackageNames) {
+    for (entityPackageName in JpaPackageName.entityPackageNames) {
         runCatching {
             return Class.forName("$entityPackageName.${prefix}Entity")
         }
