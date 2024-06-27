@@ -117,3 +117,18 @@ export function deptTreeSelect(roleId) {
     method: 'get'
   })
 }
+
+export function getRoleTables(roleId) {
+  return request({
+    url: '/system/role/table/' + roleId,
+    method: 'get'
+  })
+}
+
+export function saveRoleTables(data) {
+  return request({
+    url: '/system/role/table/',
+    method: 'post',
+    data
+  })
+}

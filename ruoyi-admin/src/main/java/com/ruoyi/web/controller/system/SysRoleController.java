@@ -102,8 +102,9 @@ public class SysRoleController extends BaseController
             return error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
         }
         role.setCreateBy(getUsername());
-        return toAjax(roleService.insertRole(role));
-
+        AjaxResult ajaxResult = toAjax(roleService.insertRole(role));
+        ajaxResult.put("data", role.getRoleId());
+        return ajaxResult;
     }
 
     /**

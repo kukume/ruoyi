@@ -197,6 +197,27 @@
             :props="defaultProps"
           ></el-tree>
         </el-form-item>
+        <el-form-item label="表格权限">
+          <el-tag
+            :key="tag"
+            v-for="tag in tables"
+            closable
+            :disable-transitions="false"
+            @close="handleCloseTag(tag)">
+            {{tag}}
+          </el-tag>
+          <el-input
+            class="input-new-tag"
+            v-if="inputVisible"
+            v-model="inputValue"
+            ref="saveTagInput"
+            size="small"
+            @keyup.enter.native="handleInputConfirm"
+            @blur="handleInputConfirm"
+          >
+          </el-input>
+          <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New</el-button>
+        </el-form-item>
         <el-form-item label="备注">
           <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
         </el-form-item>
@@ -252,7 +273,17 @@
 </template>
 
 <script>
-import { listRole, getRole, delRole, addRole, updateRole, dataScope, changeRoleStatus, deptTreeSelect } from "@/api/system/role";
+import {
+  listRole,
+  getRole,
+  delRole,
+  addRole,
+  updateRole,
+  dataScope,
+  changeRoleStatus,
+  deptTreeSelect,
+  getRoleTables, saveRoleTables
+} from "@/api/system/role";
 import { treeselect as menuTreeselect, roleMenuTreeselect } from "@/api/system/menu";
 
 export default {
@@ -338,7 +369,10 @@ export default {
         roleSort: [
           { required: true, message: "角色顺序不能为空", trigger: "blur" }
         ]
-      }
+      },
+      tables: [],
+      inputVisible: false,
+      inputValue: ''
     };
   },
   created() {
@@ -435,6 +469,7 @@ export default {
         deptCheckStrictly: true,
         remark: undefined
       };
+      this.tables = []
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -523,6 +558,14 @@ export default {
           });
         });
         this.title = "修改角色";
+        getRoleTables(roleId).then(data => {
+          const tables = data.tables
+          if (tables) {
+            this.tables = tables
+          } else {
+            this.tables = []
+          }
+        })
       });
     },
     /** 选择角色权限范围触发 */
@@ -555,12 +598,14 @@ export default {
     submitForm: function() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.roleId != undefined) {
+          let roleId = this.form.roleId
+          if (roleId) {
             this.form.menuIds = this.getMenuAllCheckedKeys();
             updateRole(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
+              saveRoleTables({ roleId, tables: this.tables })
             });
           } else {
             this.form.menuIds = this.getMenuAllCheckedKeys();
@@ -568,6 +613,8 @@ export default {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
+              roleId = response.data
+              saveRoleTables({ roleId, tables: this.tables })
             });
           }
         }
@@ -599,7 +646,42 @@ export default {
       this.download('system/role/export', {
         ...this.queryParams
       }, `role_${new Date().getTime()}.xlsx`)
+    },
+    handleCloseTag(tag) {
+      this.tables.splice(this.tables.indexOf(tag), 1);
+    },
+    showInput() {
+      this.inputVisible = true;
+      this.$nextTick(_ => {
+        this.$refs.saveTagInput.$refs.input.focus();
+      });
+    },
+    handleInputConfirm() {
+      let inputValue = this.inputValue;
+      if (inputValue) {
+        this.tables.push(inputValue);
+      }
+      this.inputVisible = false;
+      this.inputValue = '';
     }
   }
 };
 </script>
+
+<style>
+.el-tag + .el-tag {
+  margin-left: 10px;
+}
+.button-new-tag {
+  margin-left: 10px;
+  height: 32px;
+  line-height: 30px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.input-new-tag {
+  width: 90px;
+  margin-left: 10px;
+  vertical-align: bottom;
+}
+</style>

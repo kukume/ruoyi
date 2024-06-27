@@ -23,7 +23,9 @@ import javax.sql.DataSource
 
 @EnableJpaRepositories(
     // entity的包名
-    basePackages = ["com.ruoyi.query.entity.master", "com.ruoyi.common.entity.master"],
+    basePackages = [
+        "com.ruoyi.*.entity.master"
+   ],
     // 创建的entityManagerFactory的方法名
     entityManagerFactoryRef="entityManagerFactoryByMaster",
     // 创建的transactionManager的方法名

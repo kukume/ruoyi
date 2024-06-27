@@ -5,8 +5,7 @@ dependencies {
     api("com.github.pagehelper:pagehelper-spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-validation")
     api("org.apache.commons:commons-lang3")
-    implementation("com.fasterxml.jackson.core:jackson-databind")
-    api("com.baomidou:dynamic-datasource-spring-boot-starter:3.5.2")
+    api("com.baomidou:dynamic-datasource-spring-boot-starter")
     api("com.alibaba.fastjson2:fastjson2")
     api("commons-io:commons-io")
     api("org.apache.poi:poi-ooxml")
@@ -29,6 +28,6 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     api("io.projectreactor.kotlin:reactor-kotlin-extensions")
     api("com.squareup.okhttp3:okhttp")
-    api("com.baomidou:mybatis-plus-boot-starter")
-    api("io.hypersistence:hypersistence-utils-hibernate-63:3.7.3")
+    api("com.baomidou:mybatis-plus-spring-boot3-starter")
+    api("io.hypersistence:hypersistence-utils-hibernate-63:3.7.7")
 }

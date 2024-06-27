@@ -4,7 +4,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.jpa") version kotlinVersion
     id("org.jetbrains.kotlin.kapt") version kotlinVersion
-    id("org.springframework.boot") version "3.1.4"
+    id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
     kotlin("plugin.lombok") version kotlinVersion
     id("io.freefair.lombok") version "8.6"
@@ -35,7 +35,7 @@ subprojects {
     val druidVersion = "1.2.23"
     val bitwalkerVersion = "1.21"
     val kaptchaVersion = "2.3.3"
-    val pagehelperVersion = "1.4.7"
+    val pagehelperVersion = "2.1.0"
     val fastjsonVersion = "2.0.39"
     val oshiVersion = "6.6.1"
     val commonIoVersion = "2.13.0"
@@ -43,14 +43,11 @@ subprojects {
     val velocityVersion = "2.3"
     val jwtVersion = "0.9.1"
     val swaggerVersion = "2.2.0"
-    val dynamicDatasource = "4.1.3"
-    val hibernateVersion = "6.3.1.Final"
-    val springDataJpaVersion = "3.1.5"
+    val dynamicDatasource = "4.3.1"
     val querydslVersion = "5.1.0"
-    val entityGraphVersion = "3.1.0"
-    val jacksonVersion = "2.15.3"
-    val okhttpVersion = "4.11.0"
-    val mybatisPlusVersion = "3.5.3.1"
+    val entityGraphVersion = "3.2.2"
+    val okhttpVersion = "4.12.0"
+    val mybatisPlusVersion = "3.5.7"
 
 
     dependencyManagement {
@@ -68,14 +65,9 @@ subprojects {
             dependency("pro.fessional:kaptcha:${kaptchaVersion}")
             dependency("com.baomidou:dynamic-datasource-spring-boot-starter:$dynamicDatasource")
             dependency("com.cosium.spring.data:spring-data-jpa-entity-graph:$entityGraphVersion")
-            dependency("org.springframework.data:spring-data-jpa:$springDataJpaVersion")
-            dependency("org.hibernate.orm:hibernate-core:$hibernateVersion")
-            dependency("com.querydsl:querydsl-core:$querydslVersion")
-            dependency("com.fasterxml.jackson.datatype:jackson-datatype-hibernate6:$jacksonVersion")
-            dependency("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-            dependency("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+//            dependency("com.querydsl:querydsl-core:$querydslVersion")
             dependency("com.squareup.okhttp3:okhttp:$okhttpVersion")
-            dependency("com.baomidou:mybatis-plus-boot-starter:$mybatisPlusVersion")
+            dependency("com.baomidou:mybatis-plus-spring-boot3-starter:$mybatisPlusVersion")
             dependency("de.codecentric:spring-boot-admin-starter-client:3.1.8")
         }
     }
