@@ -9,6 +9,7 @@ import com.querydsl.core.types.dsl.EntityPathBase
 import com.querydsl.jpa.impl.JPAQuery
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.ruoyi.common.pojo.JpaPackageName
+import com.ruoyi.query.utils.CheckUtils
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -21,6 +22,7 @@ class DynamicQuerydslController(
 
     @PostMapping("/dynamic/query/querydsl")
     fun query(@RequestBody sql: Sql): Any {
+        CheckUtils.table(sql.from.value)
         val from = sql.from
         val primary = from.value
         val qPrimary = qEntity(primary)

@@ -43,7 +43,6 @@ subprojects {
     val velocityVersion = "2.3"
     val jwtVersion = "0.9.1"
     val swaggerVersion = "2.2.0"
-    val dynamicDatasource = "4.3.1"
     val querydslVersion = "5.1.0"
     val entityGraphVersion = "3.2.2"
     val okhttpVersion = "4.12.0"
@@ -63,7 +62,6 @@ subprojects {
             dependency("com.alibaba.fastjson2:fastjson2:${fastjsonVersion}")
             dependency("io.jsonwebtoken:jjwt:${jwtVersion}")
             dependency("pro.fessional:kaptcha:${kaptchaVersion}")
-            dependency("com.baomidou:dynamic-datasource-spring-boot-starter:$dynamicDatasource")
             dependency("com.cosium.spring.data:spring-data-jpa-entity-graph:$entityGraphVersion")
 //            dependency("com.querydsl:querydsl-core:$querydslVersion")
             dependency("com.squareup.okhttp3:okhttp:$okhttpVersion")

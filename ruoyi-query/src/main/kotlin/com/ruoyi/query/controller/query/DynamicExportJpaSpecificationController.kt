@@ -4,6 +4,7 @@ import com.ruoyi.common.utils.JobManager
 import com.ruoyi.common.utils.SecurityUtils
 import com.ruoyi.common.utils.download
 import com.ruoyi.query.pojo.DynamicHeader
+import com.ruoyi.query.utils.CheckUtils
 import com.ruoyi.query.utils.ExportUtils
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.poi.xssf.usermodel.XSSFSheet
@@ -23,6 +24,7 @@ class DynamicExportJpaSpecificationController(
 
     @PostMapping("/dynamic/export/specification")
     fun exportSpecification(@RequestBody param: ExportParam, response: HttpServletResponse): Any? {
+        CheckUtils.table(param.dynamicParam.name)
         return if (param.async) {
             val userId = SecurityUtils.getUserId()
             JobManager.now {

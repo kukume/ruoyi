@@ -6,6 +6,7 @@ import com.querydsl.core.Tuple
 import com.querydsl.jpa.impl.JPAQueryFactory
 import com.ruoyi.common.utils.JobManager
 import com.ruoyi.common.utils.download
+import com.ruoyi.query.utils.CheckUtils
 import com.ruoyi.query.utils.ExportUtils
 import jakarta.servlet.http.HttpServletResponse
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
@@ -21,6 +22,7 @@ class DynamicExportQuerydslController(
 
     @PostMapping("/dynamic/export/querydsl")
     fun export(@RequestBody sql: ExportSql, response: HttpServletResponse): Any? {
+        CheckUtils.table(sql.from.value)
         return if (sql.async) {
             JobManager.now {
                 val workbook = export(sql)

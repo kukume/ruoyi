@@ -1,5 +1,7 @@
 package com.ruoyi.framework.web.service;
 
+import com.ruoyi.common.entity.master.SysRoleEntity;
+import com.ruoyi.system.entity.master.SysRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.MessageUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.system.service.ISysUserService;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 用户验证处理
@@ -33,6 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     @Autowired
     private SysPermissionService permissionService;
+
+    @Autowired
+    private SysRoleService sysRoleService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
@@ -61,6 +69,10 @@ public class UserDetailsServiceImpl implements UserDetailsService
 
     public UserDetails createLoginUser(SysUser user)
     {
-        return new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        Long roleId = user.getRoleId();
+        List<String> tables = Optional.ofNullable(sysRoleService.findById(roleId)).orElseGet(SysRoleEntity::new).getTables();
+        LoginUser loginUser = new LoginUser(user.getUserId(), user.getDeptId(), user, permissionService.getMenuPermission(user));
+        loginUser.setTables(tables);
+        return loginUser;
     }
 }

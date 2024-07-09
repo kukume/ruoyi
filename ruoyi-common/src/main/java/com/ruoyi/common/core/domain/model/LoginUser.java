@@ -5,6 +5,7 @@ import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -70,6 +71,11 @@ public class LoginUser implements UserDetails
      * 用户信息
      */
     private SysUser user;
+
+    /**
+     * 表格权限
+     */
+    private List<String> tables;
 
     public LoginUser()
     {
@@ -256,6 +262,14 @@ public class LoginUser implements UserDetails
     public void setUser(SysUser user)
     {
         this.user = user;
+    }
+
+    public List<String> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<String> tables) {
+        this.tables = tables;
     }
 
     @Override

@@ -38,19 +38,17 @@ import javax.sql.DataSource
 class MasterJpaConfig(
     private val hibernateProperties: HibernateProperties,
     private val jpaProperties: JpaProperties,
-    private val dataSource: DataSource
+    private val masterDataSource: DataSource
 ){
 
 
     @Bean
     @Primary
     fun entityManagerFactoryByMaster(build: EntityManagerFactoryBuilder): LocalContainerEntityManagerFactoryBean {
-        dataSource as DynamicDataSource
         val properties =
             hibernateProperties.determineHibernateProperties(jpaProperties.properties, HibernateSettings())
         properties["hibernate.transaction.jta.platform"] = "org.springframework.boot.orm.jpa.hibernate.SpringJtaPlatform"
-        // 获取mybatis-plus中的art数据源
-        return build.dataSource(dataSource.resolvedDataSources["MASTER"])
+        return build.dataSource(masterDataSource)
             // entity的包名
             .packages(*JpaPackageName.entityPackageNameArray)
             .properties(properties)

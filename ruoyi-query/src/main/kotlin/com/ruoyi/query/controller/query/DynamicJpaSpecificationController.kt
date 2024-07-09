@@ -6,6 +6,7 @@ import com.ruoyi.common.pojo.JpaPackageName
 import com.ruoyi.common.utils.DateTimeFormatterUtils
 import com.ruoyi.common.utils.SecurityUtils
 import com.ruoyi.query.annoation.appendDepIdsById
+import com.ruoyi.query.utils.CheckUtils
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.Expression
 import jakarta.persistence.criteria.Path
@@ -28,6 +29,7 @@ class DynamicJpaSpecificationController(
 
     @PostMapping("/dynamic/query/specification")
     fun test(@RequestBody dynamicParam: DynamicParam): Any {
+        CheckUtils.table(dynamicParam.name)
         var sp = dynamicParam.toPredicate()
         val dynamicPageable = dynamicParam.pageable
         val page = dynamicPageable.page

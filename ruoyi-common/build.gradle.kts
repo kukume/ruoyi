@@ -5,7 +5,6 @@ dependencies {
     api("com.github.pagehelper:pagehelper-spring-boot-starter")
     api("org.springframework.boot:spring-boot-starter-validation")
     api("org.apache.commons:commons-lang3")
-    api("com.baomidou:dynamic-datasource-spring-boot-starter")
     api("com.alibaba.fastjson2:fastjson2")
     api("commons-io:commons-io")
     api("org.apache.poi:poi-ooxml")
