@@ -9,6 +9,9 @@
             :label="item.label"
             clearable
             :value="item.value">
+            <el-tooltip class="item" effect="dark" :content="tooltip(item)" placement="right">
+              <div>{{item.label}}</div>
+            </el-tooltip>
           </el-option>
         </el-select>
       </el-form-item>
@@ -682,6 +685,17 @@ export default {
       }).then(data => {
         this.remoteSelect.options = data
       })
+    },
+    tooltip(item) {
+      const find = this.templateDatabase.find(it => it.remark === item.label)
+      const condition = find.condition
+      let sb = ''
+      condition.forEach(it => {
+        let inputValue = it.inputValue
+        if (!inputValue) inputValue = '空'
+        sb += it.label + ' ' + it.queryConditionValue + ' ' + inputValue + ' && '
+      })
+      return sb.replace(/&&\s*$/, '')
     }
   }
 }
